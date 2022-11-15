@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QMainWindow, QInputDialog, QMessageBox, QLineEdit, Q
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
 
+import numpy as np
+
 import api
 import correlation
 
@@ -25,14 +27,14 @@ class MyApp(QMainWindow):
     def get_word(self):
         word, ok = QInputDialog.getText(self, "Ввод слов",
                                         "Фразы(разделены символом ~), статистика по которой будет получена:", QLineEdit.Normal)
-        self.word1, self.word2 = str(word).split('~')  if ok else None
+        self.word1, self.word2 = str(word).split('~') if ok else None
 
     def calculate(self):
-        arrx = api.trend_request(self.word1)
-        arry = api.trend_request(self.word2)
+        arrx = np.array(api.trend_request([self.word1]), dtype=float)
+        arry = np.array(api.trend_request([self.word2]), dtype=float)
         self.label.clear()
-        self.label.setText(self.word1, self.word2, 'коэфицент корреляции:', correlation.Pearson_correlation_coefficient(arrx,arry))
-        self.plot(arrx, arry)
+        self.label.setText(f'{self.word1} {self.word2} коэфицент корреляции: {correlation.Pearson_correlation_coefficient(arrx,arry)}')
+        pg.plot(arrx, arry, pen=None, symbol='o')
 
 
     def plot(self, arrX, arrY):

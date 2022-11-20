@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Ввести слова</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -50,20 +50,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>получить по отдельности</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>294</x>
       <y>30</y>
-      <width>75</width>
+      <width>201</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>получить корреляцию</string>
     </property>
    </widget>
   </widget>

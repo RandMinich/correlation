@@ -26,21 +26,31 @@ class MyApp(QMainWindow):
 
     def get_word(self):
         word, ok = QInputDialog.getText(self, "Ввод слов",
-                                        "Фразы(разделены символом ~), статистика по которой будет получена:", QLineEdit.Normal)
-        self.word1, self.word2 = str(word).split('~') if ok else None
+                                        "Фразы(разделены символом ~), статистика по которой будет получена:",
+                                        QLineEdit.Normal)
+        try:
+            self.word1, self.word2 = str(word).split('~') if ok else None
+            self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
+            self.statusBar().setStyleSheet("background-color : green")
+        except ValueError:
+            self.statusBar().showMessage('Вы ввели мало слов, попробуйте еще раз')
+            self.statusBar().setStyleSheet("background-color : red")
+
 
     def calculate(self):
-        arrx = np.array(api.trend_request([self.word1]), dtype=float)
-        arry = np.array(api.trend_request([self.word2]), dtype=float)
-        self.label.clear()
-        self.label.setText(f'{self.word1} {self.word2} коэфицент корреляции: {correlation.Pearson_correlation_coefficient(arrx,arry)}')
-        pg.plot(arrx, arry, pen=None, symbol='o')
+        try:
+            arrx = np.array(api.trend_request([self.word1]), dtype=float)
+            arry = np.array(api.trend_request([self.word2]), dtype=float)
+            self.label.clear()
+            self.label.setText(
+                f'{self.word1} {self.word2} коэфицент корреляции: {correlation.Pearson_correlation_coefficient(arrx, arry)}')
+            pg.plot(arrx, arry, pen=None, symbol='o')
+            self.statusBar().showMessage(f'Результаты по {self.word1} и {self.word2}')
+            self.statusBar().setStyleSheet("background-color : green")
+        except Exception as E:
+            self.statusBar().showMessage(f'{E}')
+            self.statusBar().setStyleSheet("background-color : red")
 
-
-    def plot(self, arrX, arrY):
-        self.graphWidget.plot(arrX, arrY)
-
-    # def get_words(self):
 
 
 if __name__ == '__main__':

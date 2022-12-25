@@ -24,6 +24,8 @@ class MyApp(QMainWindow):
         self.pushButton.clicked.connect(self.get_word)
         self.pushButton_3.clicked.connect(self.calculate)
 
+        self.pushButton_2.clicked.connect(self.calculate_different)
+
     def get_word(self):
         word, ok = QInputDialog.getText(self, "Ввод слов",
                                         "Фразы(разделены символом ~), статистика по которой будет получена:",
@@ -35,12 +37,12 @@ class MyApp(QMainWindow):
         except ValueError:
             self.statusBar().showMessage('Вы ввели мало слов, попробуйте еще раз')
             self.statusBar().setStyleSheet("background-color : red")
-
+        except Exception as E:
+            self.error(E)
 
     def calculate(self):
         try:
-            arrx = np.array(api.trend_request([self.word1]), dtype=float)
-            arry = np.array(api.trend_request([self.word2]), dtype=float)
+            arrx, arry = self.arrays_equal()
             self.label.clear()
             self.label.setText(
                 f'{self.word1} {self.word2} коэфицент корреляции: {correlation.Pearson_correlation_coefficient(arrx, arry)}')
@@ -48,9 +50,29 @@ class MyApp(QMainWindow):
             self.statusBar().showMessage(f'Результаты по {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
-            self.statusBar().showMessage(f'{E}')
-            self.statusBar().setStyleSheet("background-color : red")
+            self.error(E)
 
+    def calculate_different(self):
+        try:
+            arrx, arry = self.arrays_equal()
+            pg.plot(arrx)
+            pg.plot(arry)
+            self.statusBar().showMessage(f'Графики по {self.word1} и {self.word2}')
+            self.statusBar().setStyleSheet("background-color : green")
+        except Exception as E:
+            self.error(E)
+
+    def arrays_equal(self):
+        return np.array(api.trend_request([self.word1]), dtype=float), np.array(api.trend_request([self.word2]),
+                                                                                dtype=float)
+
+    def error(self, E):
+        self.statusBar().showMessage(f'{E}')
+        self.statusBar().setStyleSheet("background-color : red")
+
+
+# нужно добавить функцию для раздельного вывода
+# и что бы выводились значения в массивах
 
 
 if __name__ == '__main__':

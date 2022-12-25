@@ -21,10 +21,9 @@ class MyApp(QMainWindow):
         uic.loadUi('untitled.ui', self)
         self.word1 = 'words'
         self.word2 = 'letters'
-        self.pushButton.clicked.connect(self.get_word)
-        self.pushButton_3.clicked.connect(self.calculate)
-
-        self.pushButton_2.clicked.connect(self.calculate_different)
+        self.enterWords.clicked.connect(self.get_word)
+        self.getCorrelation.clicked.connect(self.correlation_data)
+        self.getDividedPlots.clicked.connect(self.calculate_different)
 
     def get_word(self):
         word, ok = QInputDialog.getText(self, "Ввод слов",
@@ -40,7 +39,7 @@ class MyApp(QMainWindow):
         except Exception as E:
             self.error(E)
 
-    def calculate(self):
+    def correlation_data(self):
         try:
             arrx, arry = self.arrays_equal()
             self.label.clear()

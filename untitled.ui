@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>794</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="enterWords">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -30,7 +30,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>230</x>
       <y>480</y>
       <width>361</width>
       <height>31</height>
@@ -40,7 +40,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="getDividedPlots">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -53,13 +53,13 @@
      <string>получить по отдельности</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="getCorrelation">
     <property name="geometry">
      <rect>
-      <x>294</x>
-      <y>30</y>
+      <x>290</x>
+      <y>10</y>
       <width>201</width>
-      <height>23</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -72,7 +72,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>794</width>
      <height>21</height>
     </rect>
    </property>

@@ -1,24 +1,19 @@
 import sys
 
 from PyQt5 import uic
-from PyQt5.Qt import QSize
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow, QInputDialog, QMessageBox, QLineEdit, QLabel
-from pyqtgraph import PlotWidget
+from PyQt5.QtWidgets import QMainWindow, QInputDialog, QLineEdit
 import pyqtgraph as pg
 
 import numpy as np
 
-import api
-import correlation
+from data import correlation, api
 
 
 class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('untitled.ui', self)
+        uic.loadUi('data/untitled.ui', self)
         self.word1 = 'words'
         self.word2 = 'letters'
         self.enterWords.clicked.connect(self.get_word)
@@ -75,7 +70,10 @@ class MyApp(QMainWindow):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = MyApp()
-    ex.show()
-    sys.exit(app.exec())
+    try:
+        app = QApplication(sys.argv)
+        ex = MyApp()
+        ex.show()
+        sys.exit(app.exec())
+    except Exception:
+        pass

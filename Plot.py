@@ -1,7 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
-import api
-import correlation
+from data import correlation, api
 
 fig, ax = plt.subplots()
 x = api.trend_request(['Python'])[:, 0]

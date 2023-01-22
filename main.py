@@ -16,21 +16,26 @@ class MyApp(QMainWindow):
         uic.loadUi('data/untitled.ui', self)
         self.word1 = 'words'
         self.word2 = 'letters'
-        self.enterWords.clicked.connect(self.get_word)
+        self.enterWords.clicked.connect(self.get_word_one)
+        self.enterWords_2.clicked.connect(self.get_word_two)
         self.getCorrelation.clicked.connect(self.correlation_data)
         self.getDividedPlots.clicked.connect(self.calculate_different)
 
-    def get_word(self):
-        word, ok = QInputDialog.getText(self, "Ввод слов",
-                                        "Фразы(разделены символом ~), статистика по которой будет получена:",
-                                        QLineEdit.Normal)
+    def get_word_one(self):
+        word, ok = QInputDialog.getText(self, "Ввод слов", QLineEdit.Normal)
         try:
-            self.word1, self.word2 = str(word).split('~') if ok else None
+            self.word1 = str(word)
             self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
-        except ValueError:
-            self.statusBar().showMessage('Вы ввели мало слов, попробуйте еще раз')
-            self.statusBar().setStyleSheet("background-color : red")
+        except Exception as E:
+            self.error(E)
+
+    def get_word_two(self):
+        word, ok = QInputDialog.getText(self, "Ввод слов", QLineEdit.Normal)
+        try:
+            self.word2 = str(word)
+            self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
+            self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
             self.error(E)
 
@@ -57,7 +62,10 @@ class MyApp(QMainWindow):
             self.error(E)
 
     def arrays_equal(self):
-        return np.array(api.trend_request([self.word1]), dtype=float), np.array(api.trend_request([self.word2]),
+        try:
+            return np.array(api.closing_price(self.word1)), np.array(api.closing_price(self.word2))
+        except:
+            return np.array(api.trend_request([self.word1]), dtype=float), np.array(api.trend_request([self.word2]),
                                                                                 dtype=float)
 
     def error(self, E):

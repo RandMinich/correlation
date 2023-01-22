@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>794</width>
-    <height>562</height>
+    <width>752</width>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,13 +18,13 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>10</y>
+      <y>20</y>
       <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Ввести слова</string>
+     <string>Ввести первую фразу</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="getDividedPlots">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>10</y>
+      <x>60</x>
+      <y>200</y>
       <width>171</width>
       <height>51</height>
      </rect>
@@ -56,14 +56,27 @@
    <widget class="QPushButton" name="getCorrelation">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>10</y>
-      <width>201</width>
+      <x>60</x>
+      <y>140</y>
+      <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>получить корреляцию</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="enterWords_2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>80</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ввести вторую фразу</string>
     </property>
    </widget>
   </widget>
@@ -72,7 +85,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>794</width>
+     <width>752</width>
      <height>21</height>
     </rect>
    </property>

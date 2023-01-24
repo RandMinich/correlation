@@ -1,11 +1,10 @@
 import sys
 
+import numpy as np
+import pyqtgraph as pg
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow, QInputDialog, QLineEdit
-import pyqtgraph as pg
-
-import numpy as np
 
 from data import correlation, api
 
@@ -22,7 +21,10 @@ class MyApp(QMainWindow):
         self.getDividedPlots.clicked.connect(self.calculate_different)
 
     def get_word_one(self):
-        word, ok = QInputDialog.getText(self, "Ввод слов", QLineEdit.Normal)
+        word, ok = QInputDialog.getText(self, "Ввод слов",
+                                        'Введите слово или фразу, статистику по которой хотите получить,'
+                                        ' или же биржевое сокращение ЗАГЛАВНЫМИ буквами',
+                                        QLineEdit.Normal)
         try:
             self.word1 = str(word)
             self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
@@ -31,7 +33,9 @@ class MyApp(QMainWindow):
             self.error(E)
 
     def get_word_two(self):
-        word, ok = QInputDialog.getText(self, "Ввод слов", QLineEdit.Normal)
+        word, ok = QInputDialog.getText(self, "Ввод слов",
+                                        'Введите слово или фразу, статистику по которой хотите получить,'
+                                        ' или же биржевое сокращение ЗАГЛАВНЫМИ буквами', QLineEdit.Normal)
         try:
             self.word2 = str(word)
             self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
@@ -63,10 +67,19 @@ class MyApp(QMainWindow):
 
     def arrays_equal(self):
         try:
-            return np.array(api.closing_price(self.word1)), np.array(api.closing_price(self.word2))
+            first = np.array(api.closing_price(self.word1))
+            if first.size == 0:
+                first = np.array(api.trend_request([self.word1]), dtype=float)
         except:
-            return np.array(api.trend_request([self.word1]), dtype=float), np.array(api.trend_request([self.word2]),
-                                                                                dtype=float)
+            first = np.array(api.trend_request([self.word1]), dtype=float)
+        second = np.array(api.closing_price(self.word2))
+        if second.size == 0:
+            second = np.array(api.trend_request([self.word2]), dtype=float)
+        if first.size > second.size:
+            first = first[first.size - second.size:]
+        if second.size > first.size:
+            second = second[second.size - first.size:]
+        return first, second
 
     def error(self, E):
         self.statusBar().showMessage(f'{E}')

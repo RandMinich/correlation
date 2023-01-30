@@ -4,7 +4,7 @@ import numpy as np
 import pyqtgraph as pg
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow, QInputDialog, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QInputDialog, QLineEdit, QMessageBox
 
 from data import correlation, api
 
@@ -19,6 +19,7 @@ class MyApp(QMainWindow):
         self.enterWords_2.clicked.connect(self.get_word_two)
         self.getCorrelation.clicked.connect(self.correlation_data)
         self.getDividedPlots.clicked.connect(self.calculate_different)
+        self.helpButton.clicked.connect(self.help)
 
     def get_word_one(self):
         word, ok = QInputDialog.getText(self, "Ввод слов",
@@ -58,12 +59,28 @@ class MyApp(QMainWindow):
     def calculate_different(self):
         try:
             arrx, arry = self.arrays_equal()
-            pg.plot(arrx)
-            pg.plot(arry)
+            first = pg.plot(arrx)
+            second = pg.plot(arry)
+            first.setWindowTitle(self.word1)
+            second.setWindowTitle(self.word2)
             self.statusBar().showMessage(f'Графики по {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
             self.error(E)
+
+    def help(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setText(
+            "Данная программа считает и выводит кореляции для: биржевых индексов или "
+            "акций компаний (цена которых берется за максимальный период с yahoo!finance) "
+            "и/или отдельных слов, популярность которых берется из гугл трендов"
+            "\n что бы ввести слова нужно нужно нажать кнопки отдельно для каждого слова."
+            " Текущие слова видно в нижней строке "
+        )
+        msgBox.setWindowTitle("Помощь")
+        msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        msgBox.exec()
 
     def arrays_equal(self):
         try:

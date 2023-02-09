@@ -27,7 +27,8 @@ class MyApp(QMainWindow):
                                         ' или же биржевое сокращение ЗАГЛАВНЫМИ буквами',
                                         QLineEdit.Normal)
         try:
-            self.word1 = str(word)
+            if str(word).strip() != '':
+                self.word1 = str(word)
             self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
@@ -38,7 +39,8 @@ class MyApp(QMainWindow):
                                         'Введите слово или фразу, статистику по которой хотите получить,'
                                         ' или же биржевое сокращение ЗАГЛАВНЫМИ буквами', QLineEdit.Normal)
         try:
-            self.word2 = str(word)
+            if str(word).strip() != '':
+                self.word2 = str(word)
             self.statusBar().showMessage(f'Ваши слова {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
@@ -50,7 +52,9 @@ class MyApp(QMainWindow):
             self.label.clear()
             self.label.setText(
                 f'{self.word1} {self.word2} коэфицент корреляции: {correlation.Pearson_correlation_coefficient(arrx, arry)}')
-            pg.plot(arrx, arry, pen=None, symbol='o')
+            p = pg.plot(arrx, arry, pen=None, symbol='o')
+            p.setLabel(axis='left', text=self.word2)
+            p.setLabel(axis='bottom', text=self.word1)
             self.statusBar().showMessage(f'Результаты по {self.word1} и {self.word2}')
             self.statusBar().setStyleSheet("background-color : green")
         except Exception as E:
@@ -89,8 +93,11 @@ class MyApp(QMainWindow):
                 first = np.array(api.trend_request([self.word1]), dtype=float)
         except:
             first = np.array(api.trend_request([self.word1]), dtype=float)
-        second = np.array(api.closing_price(self.word2))
-        if second.size == 0:
+        try:
+            second = np.array(api.closing_price(self.word2))
+            if second.size == 0:
+                second = np.array(api.trend_request([self.word2]), dtype=float)
+        except:
             second = np.array(api.trend_request([self.word2]), dtype=float)
         if first.size > second.size:
             first = first[first.size - second.size:]
